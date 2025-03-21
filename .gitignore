@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+
+# Build output
+*.tsbuildinfo
+
+# Environment variables
+.env
+.env*.local
+
+# Logs
+*.log
+logs/
+
+# Editor directories and files
+.vscode/
+.idea/
+
+# OS generated files
+.DS_Store
+
+# Test coverage
+coverage/
+
+# Package manager specific
+pnpm-debug.log*

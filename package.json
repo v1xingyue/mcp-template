@@ -1,0 +1,39 @@
+{
+  "name": "mcp-template",
+  "version": "1.0.0",
+  "main": "index.js",
+  "bin": {
+    "mcp": "./dist/mcp.js"
+  },
+  "scripts": {
+    "test": "ts-node-dev src/test.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "ts-node-dev src/server.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^22.13.10",
+    "mocha": "^11.1.0",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.8.2"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.6.1",
+    "@types/ssh2": "^1.15.4",
+    "commander": "^13.1.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "pino": "^9.6.0",
+    "pino-pretty": "^13.0.0",
+    "ssh2": "^1.16.0",
+    "undici": "^7.5.0",
+    "zod": "^3.24.2"
+  }
+}
