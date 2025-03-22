@@ -1,7 +1,7 @@
 {
   "name": "mcp-template",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/mcp.js",
   "bin": {
     "mcp": "./dist/mcp.js"
   },

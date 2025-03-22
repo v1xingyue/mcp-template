@@ -15,5 +15,5 @@ node dist/mcp.js stdio
 Or install by npx:
 
 ```shell
-npx git+https://github.com/v1xingyue/mcp-template.git
+npx -y git+https://github.com/v1xingyue/mcp-template.git
 ```
