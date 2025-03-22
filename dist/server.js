@@ -15,16 +15,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createServer = void 0;
 const mcp_js_1 = require("@modelcontextprotocol/sdk/server/mcp.js");
 const utils_1 = __importDefault(require("./utils"));
+const zod_1 = require("zod");
 const createServer = () => {
     const server = new mcp_js_1.McpServer({
-        name: "flame-mcp",
+        name: "mcp-coin-price",
         version: "1.0.0",
+        description: "Get current coin price",
+        context: {
+            coinId: zod_1.z.string(),
+        },
     });
-    server.tool("get-btc-price", "Get current btc price", {}, () => __awaiter(void 0, void 0, void 0, function* () {
-        utils_1.default.info("get-btc-price tool called....");
+    server.tool("get-coin-price", "Get current coin price", {
+        coinId: zod_1.z.string(),
+    }, (_a) => __awaiter(void 0, [_a], void 0, function* ({ coinId }) {
+        utils_1.default.info(`get-coin-price tool called... ${coinId}`);
         const token = process.env.COINGECKO_TOKEN;
         try {
-            const coinId = "bitcoin";
+            // const coinId = "bitcoin";
             const from = Math.floor(new Date().getTime() / 1000) - 600;
             const to = Math.floor(new Date().getTime() / 1000);
             const url = `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart/range?vs_currency=usd&from=${from}&to=${to}`;
@@ -41,14 +48,19 @@ const createServer = () => {
             utils_1.default.info(`data: ${JSON.stringify(data)}`);
             return {
                 content: [
-                    { type: "text", text: `Current BTC price: ${JSON.stringify(data)}` },
+                    {
+                        type: "text",
+                        text: `Current ${coinId} price: ${JSON.stringify(data)}`,
+                    },
                 ],
             };
         }
         catch (error) {
-            utils_1.default.error("Failed to get BTC price:", error);
+            utils_1.default.error(`Failed to get ${coinId} price:`, error);
             return {
-                content: [{ type: "text", text: "Failed to get BTC price" + error }],
+                content: [
+                    { type: "text", text: `Failed to get ${coinId} price: ${error}` },
+                ],
             };
         }
     }));
