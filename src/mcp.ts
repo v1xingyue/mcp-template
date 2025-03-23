@@ -10,6 +10,10 @@ import dotenv from "dotenv";
 import { ProxyAgent, setGlobalDispatcher } from "undici";
 const program = new Command();
 
+class SessionTransport extends StdioServerTransport {
+  public readonly sessionId = `session_${Date.now()}`;
+}
+
 program
   .command("stdio", {
     isDefault: true,
@@ -17,7 +21,7 @@ program
   .action(async () => {
     try {
       const server = createServer();
-      const transport = new StdioServerTransport();
+      const transport = new SessionTransport();
       await server.connect(transport);
       logger.info("MCP Server started successfully");
     } catch (error) {
@@ -38,6 +42,7 @@ program.command("sse").action(async () => {
     console.log(`New SSE connection from ${req.ip}`);
     const sseTransport = new SSEServerTransport("/messages", res);
     const sessionId = sseTransport.sessionId;
+    console.log(`sessionId: ${sessionId} is connected....`);
     if (sessionId) {
       sessions[sessionId] = { transport: sseTransport, response: res };
     }

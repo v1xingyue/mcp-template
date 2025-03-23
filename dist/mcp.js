@@ -22,6 +22,12 @@ const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const undici_1 = require("undici");
 const program = new commander_1.Command();
+class SessionTransport extends stdio_js_1.StdioServerTransport {
+    constructor() {
+        super(...arguments);
+        this.sessionId = `session_${Date.now()}`;
+    }
+}
 program
     .command("stdio", {
     isDefault: true,
@@ -29,7 +35,7 @@ program
     .action(() => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const server = (0, server_1.createServer)();
-        const transport = new stdio_js_1.StdioServerTransport();
+        const transport = new SessionTransport();
         yield server.connect(transport);
         utils_1.default.info("MCP Server started successfully");
     }
@@ -46,6 +52,7 @@ program.command("sse").action(() => __awaiter(void 0, void 0, void 0, function* 
         console.log(`New SSE connection from ${req.ip}`);
         const sseTransport = new sse_js_1.SSEServerTransport("/messages", res);
         const sessionId = sseTransport.sessionId;
+        console.log(`sessionId: ${sessionId} is connected....`);
         if (sessionId) {
             sessions[sessionId] = { transport: sseTransport, response: res };
         }

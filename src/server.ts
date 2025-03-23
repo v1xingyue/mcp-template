@@ -17,6 +17,7 @@ export const createServer = () => {
     description: "Get current coin price",
     context: {
       coinId: z.string(),
+      userPass: z.string(),
     },
   });
 

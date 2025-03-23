@@ -14,7 +14,8 @@ const zod_1 = require("zod");
 exports.passArgs = {
     pass: zod_1.z.string(),
 };
-const pass = (args) => __awaiter(void 0, void 0, void 0, function* () {
+const pass = (args, extra) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(extra);
     if (args.pass == "123456") {
         return {
             content: [

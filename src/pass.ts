@@ -5,7 +5,8 @@ export const passArgs = {
   pass: z.string(),
 };
 
-export const pass: ToolCallback<typeof passArgs> = async (args) => {
+export const pass: ToolCallback<typeof passArgs> = async (args, extra) => {
+  console.log(extra);
   if (args.pass == "123456") {
     return {
       content: [

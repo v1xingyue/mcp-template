@@ -27,6 +27,7 @@ const createServer = () => {
         description: "Get current coin price",
         context: {
             coinId: zod_1.z.string(),
+            userPass: zod_1.z.string(),
         },
     });
     server.resource("info", "/info", (uri) => __awaiter(void 0, void 0, void 0, function* () {
