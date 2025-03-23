@@ -6,6 +6,7 @@ import logger from "./utils";
 import { z } from "zod";
 import { getSuiAddress, getSuiBalance, transferArgs, transferSui } from "./sui";
 import { BUILD_TIME } from "./build-info";
+import { pass, passArgs } from "./pass";
 
 const token = process.env.COINGECKO_TOKEN;
 
@@ -44,6 +45,7 @@ export const createServer = () => {
     })
   );
 
+  server.tool("open-the-door", "Open the door by the pass", passArgs, pass);
   server.tool("get-sui-address", "get sui address", getSuiAddress);
   server.tool("get-sui-balance", "get sui balance", getSuiBalance);
   server.tool(
