@@ -16,6 +16,7 @@ exports.createServer = void 0;
 const mcp_js_1 = require("@modelcontextprotocol/sdk/server/mcp.js");
 const utils_1 = __importDefault(require("./utils"));
 const zod_1 = require("zod");
+const sui_1 = require("./sui");
 const token = process.env.COINGECKO_TOKEN;
 const createServer = () => {
     const server = new mcp_js_1.McpServer({
@@ -26,6 +27,8 @@ const createServer = () => {
             coinId: zod_1.z.string(),
         },
     });
+    server.tool("get-sui-price", "get sui price in coingecko", sui_1.getSuiPrice);
+    server.tool("get-sui-address", "get sui address", sui_1.getSuiAddress);
     server.tool("get-coin-list", "get coin list in coingecko", () => __awaiter(void 0, void 0, void 0, function* () {
         const url = `https://api.coingecko.com/api/v3/coins/list`;
         const response = yield fetch(url, {
