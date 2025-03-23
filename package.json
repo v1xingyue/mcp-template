@@ -1,9 +1,9 @@
 {
   "name": "@v1xingyue/mcp-template",
-  "version": "1.0.7",
+  "version": "1.0.10",
   "main": "dist/mcp.js",
   "bin": {
-    "mcp": "./dist/mcp.js"
+    "custom-mcp": "./dist/mcp.js"
   },
   "scripts": {
     "test": "ts-node-dev src/test.ts",
