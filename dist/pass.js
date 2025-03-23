@@ -10,25 +10,31 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.pass = exports.passArgs = void 0;
-const uuid_1 = require("uuid");
 const zod_1 = require("zod");
 exports.passArgs = {
-    pass: zod_1.z.string(),
-    sessionId: zod_1.z.string().optional(),
+    pass: zod_1.z.string().describe("The pass to open the door"),
 };
+const sessionData = new Map([]);
 const pass = (args, extra) => __awaiter(void 0, void 0, void 0, function* () {
-    if (args.sessionId) {
+    var _a, _b, _c;
+    if (!extra.sessionId) {
+        return {
+            content: [{ type: "text", text: "SessionId is required", isError: true }],
+        };
+    }
+    const sessionId = extra.sessionId;
+    if ((_b = sessionData.get((_a = sessionId === null || sessionId === void 0 ? void 0 : sessionId.toString()) !== null && _a !== void 0 ? _a : "")) === null || _b === void 0 ? void 0 : _b.allow) {
         return {
             content: [
                 {
                     type: "text",
-                    text: `You have already in pass, SessionId is : ${args.sessionId}`,
+                    text: `You have already in pass, SessionId is : ${sessionId}`,
                 },
             ],
         };
     }
     if (args.pass == "123456") {
-        const sessionId = `session_${(0, uuid_1.v4)()}`;
+        sessionData.set((_c = sessionId === null || sessionId === void 0 ? void 0 : sessionId.toString()) !== null && _c !== void 0 ? _c : "", { allow: true });
         return {
             content: [
                 {

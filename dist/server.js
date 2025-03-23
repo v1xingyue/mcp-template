@@ -67,12 +67,14 @@ const createServer = () => {
         const data = yield response.json();
         return {
             content: [{ type: "text", text: `Coin list: ${JSON.stringify(data)}` }],
+            isError: false,
         };
     }));
     server.tool("get-coin-price", "Get current coin price", {
         coinId: zod_1.z.string(),
-    }, (_a) => __awaiter(void 0, [_a], void 0, function* ({ coinId }) {
+    }, (_a, ctx_1) => __awaiter(void 0, [_a, ctx_1], void 0, function* ({ coinId }, ctx) {
         utils_1.default.info(`get-coin-price tool called... ${coinId}`);
+        utils_1.default.info(`sessionId: ${ctx.sessionId}`);
         try {
             // const coinId = "bitcoin";
             const from = Math.floor(new Date().getTime() / 1000) - 600;

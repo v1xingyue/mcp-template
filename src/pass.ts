@@ -2,23 +2,34 @@ import { ToolCallback } from "@modelcontextprotocol/sdk/server/mcp";
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
 export const passArgs = {
-  pass: z.string(),
-  sessionId: z.string().optional(),
+  pass: z.string().describe("The pass to open the door"),
 };
 
+interface SessionData {
+  allow: boolean;
+}
+
+const sessionData = new Map<string, SessionData>([]);
+
 export const pass: ToolCallback<typeof passArgs> = async (args, extra) => {
-  if (args.sessionId) {
+  if (!extra.sessionId) {
+    return {
+      content: [{ type: "text", text: "SessionId is required", isError: true }],
+    };
+  }
+  const sessionId = extra.sessionId;
+  if (sessionData.get(sessionId?.toString() ?? "")?.allow) {
     return {
       content: [
         {
           type: "text",
-          text: `You have already in pass, SessionId is : ${args.sessionId}`,
+          text: `You have already in pass, SessionId is : ${sessionId}`,
         },
       ],
     };
   }
   if (args.pass == "123456") {
-    const sessionId = `session_${uuidv4()}`;
+    sessionData.set(sessionId?.toString() ?? "", { allow: true });
     return {
       content: [
         {

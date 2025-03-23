@@ -68,6 +68,7 @@ export const createServer = () => {
     const data = await response.json();
     return {
       content: [{ type: "text", text: `Coin list: ${JSON.stringify(data)}` }],
+      isError: false,
     };
   });
 
@@ -77,8 +78,10 @@ export const createServer = () => {
     {
       coinId: z.string(),
     },
-    async ({ coinId }) => {
+    async ({ coinId }, ctx) => {
       logger.info(`get-coin-price tool called... ${coinId}`);
+      logger.info(`sessionId: ${ctx.sessionId}`);
+
       try {
         // const coinId = "bitcoin";
         const from = Math.floor(new Date().getTime() / 1000) - 600;
