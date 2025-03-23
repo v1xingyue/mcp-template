@@ -14,8 +14,19 @@ const uuid_1 = require("uuid");
 const zod_1 = require("zod");
 exports.passArgs = {
     pass: zod_1.z.string(),
+    sessionId: zod_1.z.string().optional(),
 };
 const pass = (args, extra) => __awaiter(void 0, void 0, void 0, function* () {
+    if (args.sessionId) {
+        return {
+            content: [
+                {
+                    type: "text",
+                    text: `You have already in pass, SessionId is : ${args.sessionId}`,
+                },
+            ],
+        };
+    }
     if (args.pass == "123456") {
         const sessionId = `session_${(0, uuid_1.v4)()}`;
         return {
