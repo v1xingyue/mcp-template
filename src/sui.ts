@@ -44,6 +44,6 @@ export const getSuiBalance: ToolCallback = async () => {
 
 export const getSuiPrice: ToolCallback = async () => {
   return {
-    content: [{ type: "text", text: `Sui price: 100` }],
+    content: [{ type: "text", text: `get the price of sui` }],
   };
 };

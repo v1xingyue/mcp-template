@@ -53,7 +53,7 @@ const getSuiBalance = () => __awaiter(void 0, void 0, void 0, function* () {
 exports.getSuiBalance = getSuiBalance;
 const getSuiPrice = () => __awaiter(void 0, void 0, void 0, function* () {
     return {
-        content: [{ type: "text", text: `Sui price: 100` }],
+        content: [{ type: "text", text: `get the price of sui` }],
     };
 });
 exports.getSuiPrice = getSuiPrice;
