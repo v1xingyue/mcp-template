@@ -17,3 +17,9 @@ Or install by npx:
 ```shell
 npx -y git+https://github.com/v1xingyue/mcp-template.git
 ```
+
+start inspector
+
+```shell
+npx @modelcontextprotocol/inspector
+```

@@ -1,6 +1,6 @@
 {
-  "name": "mcp-template",
-  "version": "1.0.0",
+  "name": "@v1xingyue/mcp-template",
+  "version": "1.0.1",
   "main": "dist/mcp.js",
   "bin": {
     "mcp": "./dist/mcp.js"

@@ -2,6 +2,8 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import logger from "./utils";
 import { z } from "zod";
 
+const token = process.env.COINGECKO_TOKEN;
+
 export const createServer = () => {
   const server = new McpServer({
     name: "mcp-coin-price",
@@ -12,6 +14,21 @@ export const createServer = () => {
     },
   });
 
+  server.tool("get-coin-list", "get coin list in coingecko", async () => {
+    const url = `https://api.coingecko.com/api/v3/coins/list`;
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        "x-cg-demo-api-key": token,
+      } as any,
+    });
+    const data = await response.json();
+    return {
+      content: [{ type: "text", text: `Coin list: ${JSON.stringify(data)}` }],
+    };
+  });
+
   server.tool(
     "get-coin-price",
     "Get current coin price",
@@ -20,7 +37,6 @@ export const createServer = () => {
     },
     async ({ coinId }) => {
       logger.info(`get-coin-price tool called... ${coinId}`);
-      const token = process.env.COINGECKO_TOKEN;
       try {
         // const coinId = "bitcoin";
         const from = Math.floor(new Date().getTime() / 1000) - 600;
