@@ -10,18 +10,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.pass = exports.passArgs = void 0;
+const uuid_1 = require("uuid");
 const zod_1 = require("zod");
 exports.passArgs = {
     pass: zod_1.z.string(),
 };
 const pass = (args, extra) => __awaiter(void 0, void 0, void 0, function* () {
     if (args.pass == "123456") {
+        const sessionId = `session_${(0, uuid_1.v4)()}`;
         return {
             content: [
                 {
                     type: "text",
                     text: `
             Pass: ${args.pass}, You are right person !!!
+            SessionId: ${sessionId}
           `,
                 },
             ],
