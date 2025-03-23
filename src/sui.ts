@@ -3,6 +3,8 @@ import { Ed25519Keypair } from "@mysten/sui/keypairs/ed25519";
 import { Secp256k1Keypair } from "@mysten/sui/keypairs/secp256k1";
 import { Secp256r1Keypair } from "@mysten/sui/keypairs/secp256r1";
 import { CoinBalance, getFullnodeUrl, SuiClient } from "@mysten/sui/client";
+import { Transaction } from "@mysten/sui/dist/cjs/transactions";
+import { bigint, z } from "zod";
 
 const suiPrivateKey = process.env.SUI_PRIVATE_KEY;
 
@@ -41,6 +43,49 @@ export const getSuiBalance: ToolCallback = async () => {
   return {
     content: [
       { type: "text", text: `Sui balance: ${JSON.stringify(balance)}` },
+    ],
+  };
+};
+
+const network = "mainnet";
+
+export const getTransactionLink = (tx: string) => {
+  if (network === "mainnet") {
+    return `https://suivision.xyz/txblock/${tx}`;
+  } else if (network === "testnet") {
+    return `https://testnet.suivision.xyz/txblock/${tx}`;
+  } else if (network === "devnet") {
+    return `https://devnet.suivision.xyz/txblock/${tx}`;
+  } else if (network === "localnet") {
+    return `localhost : ${tx}`;
+  }
+};
+
+export const transferArgs = {
+  to: z.string(),
+  amount: z.string(),
+};
+
+export const transferSui: ToolCallback<typeof transferArgs> = async (args) => {
+  const pair = getSuiAccount();
+  const client = new SuiClient({ url: getFullnodeUrl("mainnet") });
+  const tx = new Transaction();
+  const coins = tx.splitCoins(tx.gas, [args.amount]);
+  tx.transferObjects([coins], args.to);
+
+  const result = await client.signAndExecuteTransaction({
+    signer: pair,
+    transaction: tx,
+  });
+
+  return {
+    content: [
+      {
+        type: "text",
+        text: `Transfer done, transaction link: ${getTransactionLink(
+          result.digest
+        )}`,
+      },
     ],
   };
 };

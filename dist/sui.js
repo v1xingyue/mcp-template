@@ -9,11 +9,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getSuiBalance = exports.getSuiAddress = void 0;
+exports.transferSui = exports.transferArgs = exports.getTransactionLink = exports.getSuiBalance = exports.getSuiAddress = void 0;
 const ed25519_1 = require("@mysten/sui/keypairs/ed25519");
 const secp256k1_1 = require("@mysten/sui/keypairs/secp256k1");
 const secp256r1_1 = require("@mysten/sui/keypairs/secp256r1");
 const client_1 = require("@mysten/sui/client");
+const transactions_1 = require("@mysten/sui/dist/cjs/transactions");
+const zod_1 = require("zod");
 const suiPrivateKey = process.env.SUI_PRIVATE_KEY;
 const loadFromSecretKey = (privateKey) => {
     const keypairClasses = [ed25519_1.Ed25519Keypair, secp256k1_1.Secp256k1Keypair, secp256r1_1.Secp256r1Keypair];
@@ -53,3 +55,43 @@ const getSuiBalance = () => __awaiter(void 0, void 0, void 0, function* () {
     };
 });
 exports.getSuiBalance = getSuiBalance;
+const network = "mainnet";
+const getTransactionLink = (tx) => {
+    if (network === "mainnet") {
+        return `https://suivision.xyz/txblock/${tx}`;
+    }
+    else if (network === "testnet") {
+        return `https://testnet.suivision.xyz/txblock/${tx}`;
+    }
+    else if (network === "devnet") {
+        return `https://devnet.suivision.xyz/txblock/${tx}`;
+    }
+    else if (network === "localnet") {
+        return `localhost : ${tx}`;
+    }
+};
+exports.getTransactionLink = getTransactionLink;
+exports.transferArgs = {
+    to: zod_1.z.string(),
+    amount: zod_1.z.string(),
+};
+const transferSui = (args) => __awaiter(void 0, void 0, void 0, function* () {
+    const pair = getSuiAccount();
+    const client = new client_1.SuiClient({ url: (0, client_1.getFullnodeUrl)("mainnet") });
+    const tx = new transactions_1.Transaction();
+    const coins = tx.splitCoins(tx.gas, [args.amount]);
+    tx.transferObjects([coins], args.to);
+    const result = yield client.signAndExecuteTransaction({
+        signer: pair,
+        transaction: tx,
+    });
+    return {
+        content: [
+            {
+                type: "text",
+                text: `Transfer done, transaction link: ${(0, exports.getTransactionLink)(result.digest)}`,
+            },
+        ],
+    };
+});
+exports.transferSui = transferSui;

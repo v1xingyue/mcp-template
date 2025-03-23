@@ -51,6 +51,7 @@ const createServer = () => {
     }));
     server.tool("get-sui-address", "get sui address", sui_1.getSuiAddress);
     server.tool("get-sui-balance", "get sui balance", sui_1.getSuiBalance);
+    server.tool("transfer-sui", "transfer sui to one address", sui_1.transferArgs, sui_1.transferSui);
     server.tool("get-coin-list", "get coin list in coingecko", () => __awaiter(void 0, void 0, void 0, function* () {
         const url = `https://api.coingecko.com/api/v3/coins/list`;
         const response = yield fetch(url, {
