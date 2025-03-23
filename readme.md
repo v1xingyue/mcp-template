@@ -32,7 +32,8 @@ mcp json
       "args": ["-y","@v1xingyue/mcp-template"],
       "env": {
         "PROXY": "http://localhost:7890",
-        "COINGECKO_TOKEN": ""
+        "COINGECKO_TOKEN": "",
+        "SUI_PRIVATE_KEY":"suiprivkey1qy...."
       }
     }
 ```
