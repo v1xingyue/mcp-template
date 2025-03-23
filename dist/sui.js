@@ -14,7 +14,7 @@ const ed25519_1 = require("@mysten/sui/keypairs/ed25519");
 const secp256k1_1 = require("@mysten/sui/keypairs/secp256k1");
 const secp256r1_1 = require("@mysten/sui/keypairs/secp256r1");
 const client_1 = require("@mysten/sui/client");
-const transactions_1 = require("@mysten/sui/dist/cjs/transactions");
+const transactions_1 = require("@mysten/sui/transactions");
 const zod_1 = require("zod");
 const suiPrivateKey = process.env.SUI_PRIVATE_KEY;
 const loadFromSecretKey = (privateKey) => {
