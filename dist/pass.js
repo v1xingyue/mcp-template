@@ -15,11 +15,15 @@ exports.passArgs = {
     pass: zod_1.z.string(),
 };
 const pass = (args, extra) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(extra);
     if (args.pass == "123456") {
         return {
             content: [
-                { type: "text", text: `Pass: ${args.pass}, You are right person !!!` },
+                {
+                    type: "text",
+                    text: `
+            Pass: ${args.pass}, You are right person !!!
+          `,
+                },
             ],
         };
     }
@@ -28,7 +32,7 @@ const pass = (args, extra) => __awaiter(void 0, void 0, void 0, function* () {
             content: [
                 {
                     type: "text",
-                    text: `Pass: ${args.pass} error , You need input pass again: `,
+                    text: `Pass: ${args.pass} error , You need input pass again !!`,
                 },
             ],
         };

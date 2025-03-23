@@ -6,11 +6,15 @@ export const passArgs = {
 };
 
 export const pass: ToolCallback<typeof passArgs> = async (args, extra) => {
-  console.log(extra);
   if (args.pass == "123456") {
     return {
       content: [
-        { type: "text", text: `Pass: ${args.pass}, You are right person !!!` },
+        {
+          type: "text",
+          text: `
+            Pass: ${args.pass}, You are right person !!!
+          `,
+        },
       ],
     };
   } else {
@@ -18,7 +22,7 @@ export const pass: ToolCallback<typeof passArgs> = async (args, extra) => {
       content: [
         {
           type: "text",
-          text: `Pass: ${args.pass} error , You need input pass again: `,
+          text: `Pass: ${args.pass} error , You need input pass again !!`,
         },
       ],
     };
