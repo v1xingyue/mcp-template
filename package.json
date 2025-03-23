@@ -1,12 +1,13 @@
 {
   "name": "@v1xingyue/mcp-template",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "main": "dist/mcp.js",
   "bin": {
     "custom-mcp": "./dist/mcp.js"
   },
   "scripts": {
     "test": "ts-node-dev src/test.ts",
+    "prebuild": "echo \"export const BUILD_TIME = '$(date '+%Y-%m-%d %H:%M:%S')';\" > src/build-info.ts",
     "build": "tsc",
     "start": "node dist/server.js",
     "dev": "ts-node-dev src/mcp.ts sse"

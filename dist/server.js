@@ -17,6 +17,7 @@ const mcp_js_1 = require("@modelcontextprotocol/sdk/server/mcp.js");
 const utils_1 = __importDefault(require("./utils"));
 const zod_1 = require("zod");
 const sui_1 = require("./sui");
+const build_info_1 = require("./build-info");
 const token = process.env.COINGECKO_TOKEN;
 const createServer = () => {
     const server = new mcp_js_1.McpServer({
@@ -27,13 +28,13 @@ const createServer = () => {
             coinId: zod_1.z.string(),
         },
     });
-    server.resource("version", new mcp_js_1.ResourceTemplate("version", { list: undefined }), (uri) => __awaiter(void 0, void 0, void 0, function* () {
-        const pkgInfo = require("../package.json");
+    server.resource("info", "/info", (uri) => __awaiter(void 0, void 0, void 0, function* () {
+        console.log("info resource called...", uri);
         return {
             contents: [
                 {
                     uri: uri.href,
-                    text: pkgInfo.version,
+                    text: `build-time: ${build_info_1.BUILD_TIME}`,
                 },
             ],
         };

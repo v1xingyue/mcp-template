@@ -5,6 +5,7 @@ import {
 import logger from "./utils";
 import { z } from "zod";
 import { getSuiAddress, getSuiBalance } from "./sui";
+import { BUILD_TIME } from "./build-info";
 
 const token = process.env.COINGECKO_TOKEN;
 
@@ -18,21 +19,17 @@ export const createServer = () => {
     },
   });
 
-  server.resource(
-    "version",
-    new ResourceTemplate("version", { list: undefined }),
-    async (uri) => {
-      const pkgInfo = require("../package.json");
-      return {
-        contents: [
-          {
-            uri: uri.href,
-            text: pkgInfo.version,
-          },
-        ],
-      };
-    }
-  );
+  server.resource("info", "/info", async (uri) => {
+    console.log("info resource called...", uri);
+    return {
+      contents: [
+        {
+          uri: uri.href,
+          text: `build-time: ${BUILD_TIME}`,
+        },
+      ],
+    };
+  });
 
   server.resource(
     "greeting",
