@@ -9,10 +9,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getSuiPrice = exports.getSuiAddress = void 0;
+exports.getSuiPrice = exports.getSuiBalance = exports.getSuiAddress = void 0;
 const ed25519_1 = require("@mysten/sui/keypairs/ed25519");
 const secp256k1_1 = require("@mysten/sui/keypairs/secp256k1");
 const secp256r1_1 = require("@mysten/sui/keypairs/secp256r1");
+const client_1 = require("@mysten/sui/client");
 const suiPrivateKey = process.env.SUI_PRIVATE_KEY;
 const loadFromSecretKey = (privateKey) => {
     const keypairClasses = [ed25519_1.Ed25519Keypair, secp256k1_1.Secp256k1Keypair, secp256r1_1.Secp256r1Keypair];
@@ -38,6 +39,18 @@ const getSuiAddress = () => __awaiter(void 0, void 0, void 0, function* () {
     };
 });
 exports.getSuiAddress = getSuiAddress;
+const getSuiBalance = () => __awaiter(void 0, void 0, void 0, function* () {
+    const pair = getSuiAccount();
+    const client = new client_1.SuiClient({ url: (0, client_1.getFullnodeUrl)("mainnet") });
+    const balance = yield client.getBalance({
+        owner: pair.toSuiAddress(),
+        coinType: "0x2::sui::SUI",
+    });
+    return {
+        content: [{ type: "text", text: `Sui balance: ${balance}` }],
+    };
+});
+exports.getSuiBalance = getSuiBalance;
 const getSuiPrice = () => __awaiter(void 0, void 0, void 0, function* () {
     return {
         content: [{ type: "text", text: `Sui price: 100` }],

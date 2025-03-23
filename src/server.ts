@@ -1,7 +1,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import logger from "./utils";
 import { z } from "zod";
-import { getSuiPrice, getSuiAddress } from "./sui";
+import { getSuiPrice, getSuiAddress, getSuiBalance } from "./sui";
 
 const token = process.env.COINGECKO_TOKEN;
 
@@ -17,6 +17,8 @@ export const createServer = () => {
 
   server.tool("get-sui-price", "get sui price in coingecko", getSuiPrice);
   server.tool("get-sui-address", "get sui address", getSuiAddress);
+  server.tool("get-sui-balance", "get sui balance", getSuiBalance);
+
   server.tool("get-coin-list", "get coin list in coingecko", async () => {
     const url = `https://api.coingecko.com/api/v3/coins/list`;
     const response = await fetch(url, {
