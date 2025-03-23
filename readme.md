@@ -23,3 +23,16 @@ start inspector
 ```shell
 npx @modelcontextprotocol/inspector
 ```
+
+mcp json
+
+```json
+{
+      "command":"npx",
+      "args": ["-y","@v1xingyue/mcp-template"],
+      "env": {
+        "PROXY": "http://localhost:7890",
+        "COINGECKO_TOKEN": ""
+      }
+    }
+```
