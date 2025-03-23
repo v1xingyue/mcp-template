@@ -1,6 +1,6 @@
 {
   "name": "@v1xingyue/mcp-template",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "main": "dist/mcp.js",
   "bin": {
     "custom-mcp": "./dist/mcp.js"
@@ -9,7 +9,7 @@
     "test": "ts-node-dev src/test.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "dev": "ts-node-dev src/server.ts"
+    "dev": "ts-node-dev src/mcp.ts sse"
   },
   "keywords": [],
   "author": "",

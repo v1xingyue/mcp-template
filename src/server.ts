@@ -1,7 +1,10 @@
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import {
+  McpServer,
+  ResourceTemplate,
+} from "@modelcontextprotocol/sdk/server/mcp.js";
 import logger from "./utils";
 import { z } from "zod";
-import { getSuiPrice, getSuiAddress, getSuiBalance } from "./sui";
+import { getSuiAddress, getSuiBalance } from "./sui";
 
 const token = process.env.COINGECKO_TOKEN;
 
@@ -15,7 +18,19 @@ export const createServer = () => {
     },
   });
 
-  server.tool("get-sui-price", "get sui price in coingecko", getSuiPrice);
+  server.resource(
+    "greeting",
+    new ResourceTemplate("greeting://{name}", { list: undefined }),
+    async (uri, { name }) => ({
+      contents: [
+        {
+          uri: uri.href,
+          text: `Hello, ${name}!`,
+        },
+      ],
+    })
+  );
+
   server.tool("get-sui-address", "get sui address", getSuiAddress);
   server.tool("get-sui-balance", "get sui balance", getSuiBalance);
 

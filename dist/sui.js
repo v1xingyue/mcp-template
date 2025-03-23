@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getSuiPrice = exports.getSuiBalance = exports.getSuiAddress = void 0;
+exports.getSuiBalance = exports.getSuiAddress = void 0;
 const ed25519_1 = require("@mysten/sui/keypairs/ed25519");
 const secp256k1_1 = require("@mysten/sui/keypairs/secp256k1");
 const secp256r1_1 = require("@mysten/sui/keypairs/secp256r1");
@@ -47,13 +47,9 @@ const getSuiBalance = () => __awaiter(void 0, void 0, void 0, function* () {
         coinType: "0x2::sui::SUI",
     });
     return {
-        content: [{ type: "text", text: `Sui balance: ${balance}` }],
+        content: [
+            { type: "text", text: `Sui balance: ${JSON.stringify(balance)}` },
+        ],
     };
 });
 exports.getSuiBalance = getSuiBalance;
-const getSuiPrice = () => __awaiter(void 0, void 0, void 0, function* () {
-    return {
-        content: [{ type: "text", text: `get the price of sui` }],
-    };
-});
-exports.getSuiPrice = getSuiPrice;
