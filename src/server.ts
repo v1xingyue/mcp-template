@@ -19,6 +19,22 @@ export const createServer = () => {
   });
 
   server.resource(
+    "version",
+    new ResourceTemplate("version", { list: undefined }),
+    async (uri) => {
+      const pkgInfo = require("../package.json");
+      return {
+        contents: [
+          {
+            uri: uri.href,
+            text: pkgInfo.version,
+          },
+        ],
+      };
+    }
+  );
+
+  server.resource(
     "greeting",
     new ResourceTemplate("greeting://{name}", { list: undefined }),
     async (uri, { name }) => ({

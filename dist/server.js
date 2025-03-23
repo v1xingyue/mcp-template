@@ -27,6 +27,17 @@ const createServer = () => {
             coinId: zod_1.z.string(),
         },
     });
+    server.resource("version", new mcp_js_1.ResourceTemplate("version", { list: undefined }), (uri) => __awaiter(void 0, void 0, void 0, function* () {
+        const pkgInfo = require("../package.json");
+        return {
+            contents: [
+                {
+                    uri: uri.href,
+                    text: pkgInfo.version,
+                },
+            ],
+        };
+    }));
     server.resource("greeting", new mcp_js_1.ResourceTemplate("greeting://{name}", { list: undefined }), (uri_1, _a) => __awaiter(void 0, [uri_1, _a], void 0, function* (uri, { name }) {
         return ({
             contents: [
