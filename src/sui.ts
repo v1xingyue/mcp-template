@@ -26,10 +26,22 @@ const getSuiAccount = () => {
 };
 
 export const getSuiAddress: ToolCallback = async () => {
-  const pair = getSuiAccount();
-  return {
-    content: [{ type: "text", text: `Sui address: ${pair.toSuiAddress()}` }],
-  };
+  try {
+    const pair = getSuiAccount();
+    return {
+      content: [{ type: "text", text: `Sui address: ${pair.toSuiAddress()}` }],
+    };
+  } catch (error) {
+    return {
+      content: [
+        {
+          type: "text",
+          text: `Error: ${error} . You can generate a sui account as documents : https://docs.sui.io/guides/developer/cryptography/multisig#create-addresses-with-different-schemes`,
+          isError: true,
+        },
+      ],
+    };
+  }
 };
 
 export const getSuiBalance: ToolCallback = async () => {

@@ -1,5 +1,4 @@
 import { ToolCallback } from "@modelcontextprotocol/sdk/server/mcp";
-import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
 export const passArgs = {
   pass: z.string().describe("The pass to open the door"),
