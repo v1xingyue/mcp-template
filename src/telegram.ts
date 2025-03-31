@@ -1,4 +1,5 @@
 import { ToolCallback } from "@modelcontextprotocol/sdk/server/mcp";
+import { HttpsProxyAgent } from "https-proxy-agent";
 import { Telegraf } from "telegraf";
 import { z } from "zod";
 
@@ -19,7 +20,27 @@ export const sendTelegramNotice: ToolCallback<
       ],
     };
   }
-  const bot = new Telegraf(botToken?.toString() ?? "");
+
+  const proxy = process.env.PROXY;
+  if (!proxy) {
+    return {
+      content: [
+        {
+          type: "text",
+          text: "PROXY is not set, you need to set it in the environment variables",
+          isError: true,
+        },
+      ],
+    };
+  }
+
+  const botConfig = {
+    telegram: {
+      agent: new HttpsProxyAgent(proxy!),
+    },
+  };
+
+  const bot = new Telegraf(botToken?.toString() ?? "", botConfig);
 
   bot.telegram.sendMessage(chatId?.toString(), args.message.toString());
 

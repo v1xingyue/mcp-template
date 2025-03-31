@@ -1,6 +1,6 @@
 {
   "name": "@v1xingyue/mcp-template",
-  "version": "1.0.33",
+  "version": "1.0.35",
   "main": "dist/mcp.js",
   "bin": {
     "custom-mcp": "./dist/mcp.js"
@@ -32,6 +32,7 @@
     "commander": "^13.1.0",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "https-proxy-agent": "^7.0.6",
     "pino": "^9.6.0",
     "pino-pretty": "^13.0.0",
     "ssh2": "^1.16.0",

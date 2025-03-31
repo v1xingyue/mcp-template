@@ -15,7 +15,33 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const utils_1 = __importDefault(require("./utils"));
+const telegraf_1 = require("telegraf");
+const https_proxy_agent_1 = require("https-proxy-agent");
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
-    utils_1.default.info("Hello, world!");
+    const proxy = process.env.PROXY;
+    if (!proxy) {
+        throw new Error("PROXY is not set");
+    }
+    // 2. 创建 bot 实例
+    const bot = new telegraf_1.Telegraf(process.env.TELEGRAM_BOT_TOKEN, {
+        telegram: {
+            agent: new https_proxy_agent_1.HttpsProxyAgent(proxy),
+        },
+    });
+    utils_1.default.info("Bot instance created");
+    // 3. 尝试发送消息 - 不需要等待 launch
+    try {
+        utils_1.default.info("Attempting to send message...");
+        const channelName = "@mcpdemo";
+        utils_1.default.info("Using chat ID: %s ", channelName);
+        const messageResult = yield bot.telegram.sendMessage(channelName, "Hello, this is mcp demorld!");
+        utils_1.default.info("Message sent successfully!", messageResult);
+    }
+    catch (error) {
+        utils_1.default.error("Failed to send message:", error);
+    }
 });
-main();
+main().catch((error) => {
+    utils_1.default.error("Failed to start bot:", error);
+    process.exit(1);
+});

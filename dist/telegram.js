@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sendTelegramNotice = exports.sendTelegramNoticeArgs = void 0;
+const https_proxy_agent_1 = require("https-proxy-agent");
 const telegraf_1 = require("telegraf");
 const zod_1 = require("zod");
 exports.sendTelegramNoticeArgs = {
@@ -26,7 +27,24 @@ const sendTelegramNotice = (args) => __awaiter(void 0, void 0, void 0, function*
             ],
         };
     }
-    const bot = new telegraf_1.Telegraf((_a = botToken === null || botToken === void 0 ? void 0 : botToken.toString()) !== null && _a !== void 0 ? _a : "");
+    const proxy = process.env.PROXY;
+    if (!proxy) {
+        return {
+            content: [
+                {
+                    type: "text",
+                    text: "PROXY is not set, you need to set it in the environment variables",
+                    isError: true,
+                },
+            ],
+        };
+    }
+    const botConfig = {
+        telegram: {
+            agent: new https_proxy_agent_1.HttpsProxyAgent(proxy),
+        },
+    };
+    const bot = new telegraf_1.Telegraf((_a = botToken === null || botToken === void 0 ? void 0 : botToken.toString()) !== null && _a !== void 0 ? _a : "", botConfig);
     bot.telegram.sendMessage(chatId === null || chatId === void 0 ? void 0 : chatId.toString(), args.message.toString());
     return {
         content: [{ type: "text", text: `Telegram notice sent: ${args.message}` }],
