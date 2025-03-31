@@ -7,6 +7,7 @@ import { z } from "zod";
 import { getSuiAddress, getSuiBalance, transferArgs, transferSui } from "./sui";
 import { BUILD_TIME } from "./build-info";
 import { pass, passArgs } from "./pass";
+import { sendTelegramNotice, sendTelegramNoticeArgs } from "./telegram";
 
 const token = process.env.COINGECKO_TOKEN;
 
@@ -44,6 +45,13 @@ export const createServer = () => {
         },
       ],
     })
+  );
+
+  server.tool(
+    "telegram-notice",
+    "send notice to telegram",
+    sendTelegramNoticeArgs,
+    sendTelegramNotice
   );
 
   server.tool("open-the-door", "Open the door by the pass", passArgs, pass);

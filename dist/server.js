@@ -19,6 +19,7 @@ const zod_1 = require("zod");
 const sui_1 = require("./sui");
 const build_info_1 = require("./build-info");
 const pass_1 = require("./pass");
+const telegram_1 = require("./telegram");
 const token = process.env.COINGECKO_TOKEN;
 const createServer = () => {
     const server = new mcp_js_1.McpServer({
@@ -51,6 +52,7 @@ const createServer = () => {
             ],
         });
     }));
+    server.tool("telegram-notice", "send notice to telegram", telegram_1.sendTelegramNoticeArgs, telegram_1.sendTelegramNotice);
     server.tool("open-the-door", "Open the door by the pass", pass_1.passArgs, pass_1.pass);
     server.tool("get-sui-address", "get sui address", sui_1.getSuiAddress);
     server.tool("get-sui-balance", "get sui balance", sui_1.getSuiBalance);
