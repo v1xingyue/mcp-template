@@ -63,7 +63,14 @@ const getSuiBalance = () => __awaiter(void 0, void 0, void 0, function* () {
     });
     return {
         content: [
-            { type: "text", text: `Sui balance: ${JSON.stringify(balance)}` },
+            {
+                type: "text",
+                text: `Sui balance: 
+        coinType : ${balance.coinType} 
+        coinObject count: ${balance.coinObjectCount}
+        totalBalance: ${Number(balance.totalBalance) / 10 ** 9}
+        `,
+            },
         ],
     };
 });
