@@ -30,6 +30,15 @@ const createServer = () => {
             coinId: zod_1.z.string(),
             userPass: zod_1.z.string(),
         },
+        connection: {
+            auth: {
+                type: "bearer",
+                validate: (token) => {
+                    utils_1.default.info(`validate token: ${token}`);
+                    return token === "admin";
+                },
+            },
+        },
     });
     server.resource("info", "/info", (uri) => __awaiter(void 0, void 0, void 0, function* () {
         console.log("info resource called...", uri);
@@ -57,8 +66,8 @@ const createServer = () => {
     server.tool("get-sui-address", "get sui address", sui_1.getSuiAddress);
     server.tool("get-sui-balance", "get sui balance", sui_1.getSuiBalance);
     server.tool("transfer-sui", "transfer sui to one address", sui_1.transferArgs, sui_1.transferSui);
-    server.tool("get-coin-list", "get coin list in coingecko", () => __awaiter(void 0, void 0, void 0, function* () {
-        const url = `https://api.coingecko.com/api/v3/coins/list`;
+    server.tool("get-coin-market", "get coin market in coingecko", () => __awaiter(void 0, void 0, void 0, function* () {
+        const url = `https://api.coingecko.com/api/v3/coins/markets?per_page=100&page=1&vs_currency=usd&price_change_percentage=24h`;
         const response = yield fetch(url, {
             method: "GET",
             headers: {
@@ -67,8 +76,19 @@ const createServer = () => {
             },
         });
         const data = yield response.json();
+        const coinMarket = data.map((item) => {
+            return {
+                name: item.name,
+                symbol: item.symbol,
+                price: item.current_price,
+                coin_id: item.id,
+                price_change_percentage: item.price_change_percentage_24h,
+            };
+        });
         return {
-            content: [{ type: "text", text: `Coin list: ${JSON.stringify(data)}` }],
+            content: [
+                { type: "text", text: `Coin market: ${JSON.stringify(coinMarket)}` },
+            ],
             isError: false,
         };
     }));

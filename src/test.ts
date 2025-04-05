@@ -1,37 +1,40 @@
 import dotenv from "dotenv";
 dotenv.config();
 import logger from "./utils";
-import { Telegraf } from "telegraf";
-import { HttpsProxyAgent } from "https-proxy-agent";
+import { validate } from "./notion";
+import { CoinGeckoClient } from "coingecko-api-v3";
+
+import { ProxyAgent, setGlobalDispatcher } from "undici";
+
+dotenv.config();
+const proxy = process.env.PROXY;
+if (proxy) {
+  logger.info(`Using proxy: ${proxy}`);
+  setGlobalDispatcher(new ProxyAgent(proxy));
+}
 
 const main = async () => {
-  const proxy = process.env.PROXY;
-  if (!proxy) {
-    throw new Error("PROXY is not set");
-  }
-
-  // 2. 创建 bot 实例
-  const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN!, {
-    telegram: {
-      agent: new HttpsProxyAgent(proxy!),
-    },
+  const token = process.env.COINGECKO_TOKEN;
+  const url = `https://api.coingecko.com/api/v3/coins/markets?per_page=100&page=1&vs_currency=usd&price_change_percentage=24h`;
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      "x-cg-demo-api-key": token,
+    } as any,
   });
-  logger.info("Bot instance created");
-
-  // 3. 尝试发送消息 - 不需要等待 launch
-  try {
-    logger.info("Attempting to send message...");
-    const channelName = "@mcpdemo";
-    logger.info("Using chat ID: %s ", channelName);
-
-    const messageResult = await bot.telegram.sendMessage(
-      channelName,
-      "Hello, this is mcp demorld!"
-    );
-    logger.info("Message sent successfully!", messageResult);
-  } catch (error) {
-    logger.error("Failed to send message:", error);
-  }
+  const data = await response.json();
+  console.log(
+    data.map((item: any) => {
+      return {
+        name: item.name,
+        symbol: item.symbol,
+        price: item.current_price,
+        coin_id: item.id,
+        price_change_percentage: item.price_change_percentage_24h,
+      };
+    })
+  );
 };
 
 main().catch((error) => {

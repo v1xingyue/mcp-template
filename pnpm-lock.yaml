@@ -17,6 +17,12 @@ importers:
       '@types/ssh2':
         specifier: ^1.15.4
         version: 1.15.4
+      coingecko-api:
+        specifier: ^1.0.10
+        version: 1.0.10
+      coingecko-api-v3:
+        specifier: ^0.0.29
+        version: 0.0.29
       commander:
         specifier: ^13.1.0
         version: 13.1.0
@@ -51,6 +57,9 @@ importers:
         specifier: ^3.24.2
         version: 3.24.2
     devDependencies:
+      '@types/coingecko-api':
+        specifier: ^1.0.13
+        version: 1.0.13
       '@types/express':
         specifier: ^5.0.0
         version: 5.0.0
@@ -181,6 +190,9 @@ packages:
 
   '@types/body-parser@1.19.5':
     resolution: {integrity: sha512-fB3Zu92ucau0iQ0JMCFQE7b/dv8Ot07NI3KaZIkIUNXq82k4eBAqUaneXfleGY9JWskeS9y+u0nXMyspcuQrCg==}
+
+  '@types/coingecko-api@1.0.13':
+    resolution: {integrity: sha512-SUSnzv176f7IzwNSiTwX0wWvMCBVZ24tRUo5vUKNmAVbXoTB4eW0MDZL9ZPsrwPqOXtzBj3IKd2BEmbp1FMSjA==}
 
   '@types/connect@3.4.38':
     resolution: {integrity: sha512-K6uROf1LD88uDQqJCktA4yzL1YYAK6NgfsI0v/mTgyPKWsX1CnJ0XPSDhViejru1GcRkLWb8RlzFYJRqGUbaug==}
@@ -366,6 +378,12 @@ packages:
   cliui@8.0.1:
     resolution: {integrity: sha512-BSeNnyus75C4//NQ9gQt1/csTXyo/8Sb+afLAkzAptFuMsod9HFokGNudZpi/oQV73hnVK+sR+5PVRMd+Dr7YQ==}
     engines: {node: '>=12'}
+
+  coingecko-api-v3@0.0.29:
+    resolution: {integrity: sha512-4aF0mU6Pwmo78W4NsPbMslU3ooeSa2Dq8a8PFR+5+wWcWvTBMiUZgfy9UvybynYVsnvYCoyxtNwxTiMZBeZh4w==}
+
+  coingecko-api@1.0.10:
+    resolution: {integrity: sha512-7YLLC85+daxAw5QlBWoHVBVpJRwoPr4HtwanCr8V/WRjoyHTa1Lb9DQAvv4MDJZHiz4no6HGnDQnddtjV35oRA==}
 
   color-convert@2.0.1:
     resolution: {integrity: sha512-RRECPsj7iu/xb5oKYcsFHSppFNnsj/52OVTRKb4zP5onXwVF3zVmmToNcOfGC+CRDpfK/U584fMg38ZHCaElKQ==}
@@ -679,6 +697,9 @@ packages:
   https-proxy-agent@7.0.6:
     resolution: {integrity: sha512-vK9P5/iUfdl95AI+JVyUuIcVtd4ofvtrOr3HNtM2yxC9bnMbEdp3x01OhQNnjb8IJYi38VlTE3mBXwcfvywuSw==}
     engines: {node: '>= 14'}
+
+  https@1.0.0:
+    resolution: {integrity: sha512-4EC57ddXrkaF0x83Oj8sM6SLQHAWXw90Skqu2M4AEWENZ3F02dFJE/GARA8igO79tcgYqGrD7ae4f5L3um2lgg==}
 
   iconv-lite@0.4.24:
     resolution: {integrity: sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==}
@@ -1442,6 +1463,8 @@ snapshots:
       '@types/connect': 3.4.38
       '@types/node': 22.13.10
 
+  '@types/coingecko-api@1.0.13': {}
+
   '@types/connect@3.4.38':
     dependencies:
       '@types/node': 22.13.10
@@ -1652,6 +1675,12 @@ snapshots:
       string-width: 4.2.3
       strip-ansi: 6.0.1
       wrap-ansi: 7.0.0
+
+  coingecko-api-v3@0.0.29:
+    dependencies:
+      https: 1.0.0
+
+  coingecko-api@1.0.10: {}
 
   color-convert@2.0.1:
     dependencies:
@@ -1997,6 +2026,8 @@ snapshots:
       debug: 4.4.0(supports-color@8.1.1)
     transitivePeerDependencies:
       - supports-color
+
+  https@1.0.0: {}
 
   iconv-lite@0.4.24:
     dependencies:

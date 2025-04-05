@@ -20,6 +20,15 @@ export const createServer = () => {
       coinId: z.string(),
       userPass: z.string(),
     },
+    connection: {
+      auth: {
+        type: "bearer",
+        validate: (token: string) => {
+          logger.info(`validate token: ${token}`);
+          return token === "admin";
+        },
+      },
+    },
   });
 
   server.resource("info", "/info", async (uri) => {
@@ -64,8 +73,8 @@ export const createServer = () => {
     transferSui
   );
 
-  server.tool("get-coin-list", "get coin list in coingecko", async () => {
-    const url = `https://api.coingecko.com/api/v3/coins/list`;
+  server.tool("get-coin-market", "get coin market in coingecko", async () => {
+    const url = `https://api.coingecko.com/api/v3/coins/markets?per_page=100&page=1&vs_currency=usd&price_change_percentage=24h`;
     const response = await fetch(url, {
       method: "GET",
       headers: {
@@ -74,8 +83,19 @@ export const createServer = () => {
       } as any,
     });
     const data = await response.json();
+    const coinMarket = data.map((item: any) => {
+      return {
+        name: item.name,
+        symbol: item.symbol,
+        price: item.current_price,
+        coin_id: item.id,
+        price_change_percentage: item.price_change_percentage_24h,
+      };
+    });
     return {
-      content: [{ type: "text", text: `Coin list: ${JSON.stringify(data)}` }],
+      content: [
+        { type: "text", text: `Coin market: ${JSON.stringify(coinMarket)}` },
+      ],
       isError: false,
     };
   });
