@@ -1,6 +1,6 @@
 {
   "name": "@v1xingyue/mcp-template",
-  "version": "1.0.38",
+  "version": "1.0.39",
   "main": "dist/mcp.js",
   "bin": {
     "custom-mcp": "./dist/mcp.js"
@@ -17,21 +17,18 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "@types/coingecko-api": "^1.0.13",
-    "@types/express": "^5.0.0",
+    "@types/express": "^5.0.1",
     "@types/mocha": "^10.0.10",
-    "@types/node": "^22.13.10",
+    "@types/node": "^22.14.0",
     "mocha": "^11.1.0",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.3"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.7.0",
-    "@mysten/sui": "^1.24.0",
-    "@types/ssh2": "^1.15.4",
-    "coingecko-api": "^1.0.10",
-    "coingecko-api-v3": "^0.0.29",
+    "@modelcontextprotocol/sdk": "^1.8.0",
+    "@mysten/sui": "^1.26.1",
+    "@types/ssh2": "^1.15.5",
     "commander": "^13.1.0",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
@@ -40,7 +37,7 @@
     "pino-pretty": "^13.0.0",
     "ssh2": "^1.16.0",
     "telegraf": "^4.16.3",
-    "undici": "^7.5.0",
+    "undici": "^7.7.0",
     "uuid": "^11.1.0",
     "zod": "^3.24.2"
   }

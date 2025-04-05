@@ -32,7 +32,6 @@ program
 program.command("sse").action(async () => {
   logger.info("Let's start SSE Server... ");
   const server = createServer();
-
   const app = express();
   const sessions: Record<
     string,

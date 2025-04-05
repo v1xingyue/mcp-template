@@ -2,7 +2,6 @@ import dotenv from "dotenv";
 dotenv.config();
 import logger from "./utils";
 import { validate } from "./notion";
-import { CoinGeckoClient } from "coingecko-api-v3";
 
 import { ProxyAgent, setGlobalDispatcher } from "undici";
 
