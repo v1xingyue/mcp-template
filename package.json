@@ -10,7 +10,11 @@
     "prebuild": "echo \"export const BUILD_TIME = '$(date '+%Y-%m-%d %H:%M:%S')';\" > src/build-info.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "dev": "ts-node-dev src/mcp.ts sse"
+    "dev": "ts-node-dev src/mcp.ts sse",
+    "prepublish": "npm version patch && npm run build",
+    "publish": "npm publish --access public",
+    "prepublish-dev": "npm version patch && npm run build",
+    "publish-dev": "npm publish --access public --tag dev"
   },
   "keywords": [],
   "author": "",

@@ -8,6 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.transferSui = exports.transferArgs = exports.getTransactionLink = exports.getSuiBalance = exports.getSuiAddress = void 0;
 const ed25519_1 = require("@mysten/sui/keypairs/ed25519");
@@ -38,7 +39,12 @@ const getSuiAddress = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const pair = getSuiAccount();
         return {
-            content: [{ type: "text", text: `Sui address: ${pair.toSuiAddress()}` }],
+            content: [
+                {
+                    type: "text",
+                    text: `Sui address: ${pair.toSuiAddress()} network: ${network}`,
+                },
+            ],
         };
     }
     catch (error) {
@@ -75,7 +81,7 @@ const getSuiBalance = () => __awaiter(void 0, void 0, void 0, function* () {
     };
 });
 exports.getSuiBalance = getSuiBalance;
-const network = "mainnet";
+const network = (_a = process.env.SUI_NETWORK) !== null && _a !== void 0 ? _a : "mainnet";
 const getTransactionLink = (tx) => {
     if (network === "mainnet") {
         return `https://suivision.xyz/txblock/${tx}`;

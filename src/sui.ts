@@ -29,7 +29,12 @@ export const getSuiAddress: ToolCallback = async () => {
   try {
     const pair = getSuiAccount();
     return {
-      content: [{ type: "text", text: `Sui address: ${pair.toSuiAddress()}` }],
+      content: [
+        {
+          type: "text",
+          text: `Sui address: ${pair.toSuiAddress()} network: ${network}`,
+        },
+      ],
     };
   } catch (error) {
     return {
@@ -66,7 +71,7 @@ export const getSuiBalance: ToolCallback = async () => {
   };
 };
 
-const network = "mainnet";
+const network = process.env.SUI_NETWORK ?? "mainnet";
 
 export const getTransactionLink = (tx: string) => {
   if (network === "mainnet") {
