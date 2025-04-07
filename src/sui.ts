@@ -6,7 +6,33 @@ import { CoinBalance, getFullnodeUrl, SuiClient } from "@mysten/sui/client";
 import { Transaction } from "@mysten/sui/transactions";
 import { z } from "zod";
 
+type Network = "mainnet" | "testnet" | "devnet" | "localnet";
+
 const suiPrivateKey = process.env.SUI_PRIVATE_KEY;
+
+type KeypairMethod = {
+  Class:
+    | typeof Ed25519Keypair
+    | typeof Secp256k1Keypair
+    | typeof Secp256r1Keypair;
+  method: "deriveKeypairFromSeed" | "deriveKeypair";
+};
+
+const loadFromMnemonics = (mnemonics: string) => {
+  const keypairMethods: KeypairMethod[] = [
+    { Class: Ed25519Keypair, method: "deriveKeypairFromSeed" },
+    { Class: Secp256k1Keypair, method: "deriveKeypair" },
+    { Class: Secp256r1Keypair, method: "deriveKeypair" },
+  ];
+  for (const { Class, method } of keypairMethods) {
+    try {
+      return (Class as any)[method](mnemonics);
+    } catch {
+      // Removed unnecessary continue
+    }
+  }
+  throw new Error("Failed to derive keypair from mnemonics");
+};
 
 const loadFromSecretKey = (privateKey: string) => {
   const keypairClasses = [Ed25519Keypair, Secp256k1Keypair, Secp256r1Keypair];
@@ -21,8 +47,12 @@ const loadFromSecretKey = (privateKey: string) => {
 };
 
 const getSuiAccount = () => {
-  const pair = loadFromSecretKey(suiPrivateKey?.toString() ?? "");
-  return pair;
+  try {
+    const pair = loadFromSecretKey(suiPrivateKey?.toString() ?? "");
+    return pair;
+  } catch (error) {
+    return loadFromMnemonics(suiPrivateKey?.toString() ?? "");
+  }
 };
 
 export const getSuiAddress: ToolCallback = async () => {
@@ -51,7 +81,7 @@ export const getSuiAddress: ToolCallback = async () => {
 
 export const getSuiBalance: ToolCallback = async () => {
   const pair = getSuiAccount();
-  const client = new SuiClient({ url: getFullnodeUrl("mainnet") });
+  const client = new SuiClient({ url: getFullnodeUrl(network as Network) });
   const balance: CoinBalance = await client.getBalance({
     owner: pair.toSuiAddress(),
     coinType: "0x2::sui::SUI",
